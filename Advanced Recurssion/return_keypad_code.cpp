@@ -31,39 +31,54 @@ cf
 
 /* Sat-Chitta-Ananda */
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+
 using namespace std;
-#define int long long
-#define double long double
 
-const vector<string> keypad = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
-vector<string> recursion(int n) {
-	if(n <= 1) {
-		return {""};
-	}
-	
-	vector<string> ans = recursion(n / 10);
-	vector<string> output;
-
-	int index = n % 10;
-	for(char c : keypad[index]) {
-		for(string s : ans) {
-			output.push_back(s + c);
-		}
-	}
-	return output;
+int keypad(int num, string output[])
+{
+    string key[10] = { "", "", "abc", "def", "ghi", "jkl", "mno" ,"pqrs", "tuv", "wxyz"};
+    if(num==0)
+    {
+        output[0]="";
+        return 1;
+    }
+    int digit = num % 10;
+    string smalloutput[1000];
+    int count = keypad(num/10, smalloutput);
+    string str=key[digit];
+    int k=0;
+    for(int i=0; i<str.length(); i++)
+    {
+    for(int j=0; j<count; j++)
+    {
+        output[k]=smalloutput[j]+str[i];
+        k++;
+    }
+    }
+    return k;
+   
+    
+    
+    
+   
 }
 
-int32_t main()
-{
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	
-	int n; cin >> n;
-	vector<string> ans = recursion(n);
+int main(){
+    int t;
+    cin >> t;
+    while(t--)
+    {
+    int num;
+    cin >> num;
 
-	for(string s : ans) {
-		cout << s << '\n';
-	}
-	return 0;
+    string output[10000];
+    int count = keypad(num, output);
+    for(int i = 0; i < count && i < 10000; i++){
+        cout << output[i] << endl;
+    }
+    }
+    return 0;
 }
